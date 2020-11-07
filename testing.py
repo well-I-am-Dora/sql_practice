@@ -1,5 +1,6 @@
 from typing import Callable
 
+from csv_unfilled import get_california_s_cities
 from unfilled_functions import *
 import utils
 import pytest
@@ -22,7 +23,7 @@ def test_sql_queries(function: Callable):
     if type(query) != str:
         pytest.fail(f'Ваша функция {function.__name__} должна возвращать SQL запрос в виде строки')
     if 'select' not in query.lower():
-        pytest.fail(f'Запрос функции {function.__name__} должна быть SELECT запросом, но вместо это там "{query}"')
+        pytest.fail(f'Запрос функции {function.__name__} должна быть SELECT запросом, но вместо этого там "{query}"')
 
     try:
         results, columns = utils.execute_query(query)
@@ -37,3 +38,16 @@ def test_sql_queries(function: Callable):
         pytest.fail(f'Неверный ответ для функции {function.__name__} ! {e}')
     except Exception as e:
         pytest.fail(f'Непредвиденная ошибка во время проверки результата функции {function.__name__}')
+
+
+def test_csv_task():
+    testing_data = get_california_s_cities(filename='./cities.csv')
+    if type(testing_data) != list:
+        pytest.fail('Необходимо вернуть СПИСОК городов')
+        return
+    orig_values = utils.read_pickled('./results/get_california_s_cities')
+
+    if len(orig_values) != len(testing_data):
+        pytest.fail(f'Ожидалось {len(orig_values)} значений, но в вашем списке городов их {testing_data}')
+    if set(orig_values) != set(testing_data):
+        pytest.fail(f'Неверный список городов, получено: {testing_data}')
