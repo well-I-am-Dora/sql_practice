@@ -26,7 +26,7 @@ def get_all_phone_numbers() -> str:
 
     :return: запрос, выполняющий требования
     """
-    return """"""
+    return 'SELECT FirstName, LastName, Phone FROM customers'
 
 
 def get_all_clients_from_e() -> str:
@@ -36,7 +36,7 @@ def get_all_clients_from_e() -> str:
 
     :return: запрос, выполняющий требования
     """
-    return """"""
+    return "SELECT FirstName, LastName FROM customers WHERE FirstName LIKE 'E%'"
 
 
 def get_hired_after_2003() -> str:
@@ -46,7 +46,7 @@ def get_hired_after_2003() -> str:
 
     :return: запрос, выполняющий требования
     """
-    return """"""
+    return 'SELECT FirstName, LastName, BirthDate, HireDate FROM employees WHERE YEAR(HireDate) >= 2003'
 
 
 def get_customers_with_job() -> str:
@@ -56,7 +56,7 @@ def get_customers_with_job() -> str:
 
     :return: запрос, выполняющий требования
     """
-    return """"""
+    return 'SELECT FirstName, LastName, Company FROM customers WHERE Company NOT IS NULL'
 
 
 def get_biggest_album() -> str:
@@ -66,7 +66,9 @@ def get_biggest_album() -> str:
 
     :return: запрос, выполняющий требования
     """
-    return """"""
+    return 'SELECT albums."AlbumId", albums."Title", COUNT(tracks."TrackId")' \
+           ' as c from albums join tracks on albums."AlbumId" = tracks."AlbumId"' \
+           ' group by albums."AlbumId" order by c desc limit 1'
 
 
 def get_success_artists() -> str:
@@ -76,7 +78,10 @@ def get_success_artists() -> str:
 
     :return: запрос, выполняющий требования
     """
-    return """"""
+    return 'select artists."Name", count(tracks."TrackId") as trackcount' \
+           ' from artists join albums on artists."ArtistId"=albums."ArtistId"' \
+           ' join tracks on tracks."AlbumId"=albums."AlbumId" group by artists."Name"' \
+           ' having count(tracks."TrackId") > 3'
 
 
 def get_biggest_orders() -> str:
@@ -86,7 +91,9 @@ def get_biggest_orders() -> str:
 
     :return: запрос, выполняющий требования
     """
-    return """"""
+    return 'select "FirstName", "LastName", "Total", "InvoiceDate" ' \
+           'from customers join invoices on customers."CustomerId" = invoices."CustomerId" ' \
+           'order by "Total" desc limit 10'
 
 
 def get_first_half_year_employees_birth_date() -> str:
@@ -96,7 +103,7 @@ def get_first_half_year_employees_birth_date() -> str:
 
     :return: запрос, выполняющий требования
     """
-    return """"""
+    return 'SELECT FirstName, LastName, BirthDate FROM employees WHERE MONTH(BirthDate) BETWEEN 1 AND 6'
 
 
 def get_most_popular_support_employee() -> str:
@@ -106,7 +113,10 @@ def get_most_popular_support_employee() -> str:
 
     :return: запрос, выполняющий требования
     """
-    return """"""
+    return 'select employees."FirstName", employees."LastName", count(employees."EmployeeId") ' \
+           'from employees join customers on employees."EmployeeId" = customers."SupportRepId" ' \
+           'group by employees."EmployeeId" ' \
+           'order by count(employees."EmployeeId") desc limit 1'
 
 
 def get_most_buying_tracks() -> str:
@@ -118,7 +128,10 @@ def get_most_buying_tracks() -> str:
 
     :return: запрос, выполняющий требования
     """
-    return """"""
+    return 'select tracks."Name", count(invoice_items."InvoiceId") as ct ' \
+           'from tracks join invoice_items on tracks."TrackId" = invoice_items."TrackId" ' \
+           'group by tracks."Name" ' \
+           'order by ct desc, "Name" limit 10'
 
 
 def get_biggest_playlist() -> str:
@@ -128,7 +141,11 @@ def get_biggest_playlist() -> str:
 
     :return: запрос, выполняющий требования
     """
-    return """"""
+    return 'select name, count(*)  as cnt from playlists ' \
+           'join playlist_track on playlists."PlaylistId" = playlist_track."PlaylistId" ' \
+           'group by "Name" ' \
+           'order by cnt desc ' \
+           'limit 1'
 
 
 def get_artist_presentation() -> str:
@@ -138,4 +155,7 @@ def get_artist_presentation() -> str:
 
     :return: запрос, выполняющий требования
     """
-    return """"""
+    return 'select artists."name" as artist, tracks."Name" as track, max(tracks."Milliseconds" / 1000) as duration ' \
+           'from tracks join albums on tracks."AlbumId" = albums."AlbumId" ' \
+           'join artists on albums."ArtistId" = artists."ArtistId" ' \
+           'group by artists."Name"'
