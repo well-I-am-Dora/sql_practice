@@ -11,6 +11,10 @@ functions = [example, get_all_phone_numbers, get_all_clients_from_e, get_hired_a
 
 @pytest.mark.parametrize('function', functions)
 def test_sql_queries(function: Callable):
+    """
+    Проверка SQL запроса на корректность
+    :param function: функция, возвращаюшая SQL запрос
+    """
     filename = f'./results/{function.__name__}'
     orig_values = utils.read_pickled(filename)
 
