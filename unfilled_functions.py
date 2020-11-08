@@ -46,7 +46,7 @@ def get_hired_after_2003() -> str:
 
     :return: запрос, выполняющий требования
     """
-    return 'SELECT FirstName, LastName, BirthDate, HireDate FROM employees WHERE YEAR(HireDate) >= 2003'
+    return 'SELECT FirstName, LastName, BirthDate, HireDate FROM employees WHERE cast(strftime('%Y', HireDate) as int) >= 2003'
 
 
 def get_customers_with_job() -> str:
@@ -56,7 +56,7 @@ def get_customers_with_job() -> str:
 
     :return: запрос, выполняющий требования
     """
-    return 'SELECT FirstName, LastName, Company FROM customers WHERE Company NOT IS NULL'
+    return 'SELECT FirstName, LastName, Company FROM customers WHERE Company NOT NULL'
 
 
 def get_biggest_album() -> str:
@@ -103,7 +103,7 @@ def get_first_half_year_employees_birth_date() -> str:
 
     :return: запрос, выполняющий требования
     """
-    return 'SELECT FirstName, LastName, BirthDate FROM employees WHERE MONTH(BirthDate) BETWEEN 1 AND 6'
+    return 'SELECT FirstName, LastName, BirthDate FROM employees WHERE cast(strftime('%m', BirthDate) as int) BETWEEN 1 AND 6'
 
 
 def get_most_popular_support_employee() -> str:
