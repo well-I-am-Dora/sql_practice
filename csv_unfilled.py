@@ -1,4 +1,5 @@
 from typing import List
+import csv
 
 
 def get_california_s_cities(filename: str = './cities.csv') -> List[str]:
@@ -17,4 +18,9 @@ def get_california_s_cities(filename: str = './cities.csv') -> List[str]:
     :param filename: название файла, в котором находится список городов
     :return: Список городов штата калифорния, начинающихся с буквы 'S'
     """
-    return []
+    with open(filename, encoding="utf8") as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=',', quotechar='"')
+        cities = list(map(lambda c: c[''' "City"'''].strip().strip('"'),
+                          list(filter(lambda s: s[''' "City"'''].strip().strip('"').startswith('S')
+                                       and s[''' "State"'''].strip() == 'CA', list(reader)))))
+    return cities
