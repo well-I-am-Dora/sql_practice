@@ -130,8 +130,8 @@ def get_most_buying_tracks() -> str:
     """
     return 'select tracks."Name", count(invoice_items."InvoiceId") as ct ' \
            'from tracks join invoice_items on tracks."TrackId" = invoice_items."TrackId" ' \
-           'group by tracks."Name" ' \
-           'order by ct desc, "Name" limit 10'
+           'group by tracks."TrackId" ' \
+           'order by ct desc, tracks."Name" limit 10'
 
 
 def get_biggest_playlist() -> str:
