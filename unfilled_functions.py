@@ -143,7 +143,7 @@ def get_biggest_playlist() -> str:
     """
     return 'select name, count(*)  as cnt from playlists ' \
            'join playlist_track on playlists."PlaylistId" = playlist_track."PlaylistId" ' \
-           'group by "Name" ' \
+           'group by playlists."PlaylistId" ' \
            'order by cnt desc ' \
            'limit 1'
 
